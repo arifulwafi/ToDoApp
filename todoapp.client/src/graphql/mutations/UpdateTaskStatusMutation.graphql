@@ -1,0 +1,10 @@
+mutation UpdateTaskStatusMutation($input: UpdateTaskStatusInput!) {
+  updateTaskStatus(input: $input) {
+    id
+    title
+    description
+    status
+    createdAt
+    updatedAt
+  }
+}
