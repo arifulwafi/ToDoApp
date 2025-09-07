@@ -251,24 +251,6 @@ paket-files/
 **/.idea/
 *.sln.iml
 
-# ABP Studio
-**/.abpstudio/
-
-# PMS
-src/NTouch.PMS.Web/Logs/*
-src/NTouch.PMS.Web.Host/Logs/*
-src/NTouch.PMS.Web.Public/Logs/*
-src/NTouch.PMS.Web.Public/Logs/*
-src/NTouch.PMS.AuthServer/Logs/*
-src/NTouch.PMS.HttpApi.Host/Logs/*
-src/NTouch.PMS.HttpApi.HostWithIds/Logs/*
-src/NTouch.PMS.DbMigrator/Logs/*
-src/NTouch.PMS.Blazor.Server/Logs/*
-src/NTouch.PMS.Blazor.Server.Tiered/Logs/*
-
-# Use abp install-libs to restore.
-**/wwwroot/libs/*
-
 # IdentityServer temp files
 tempkey.rsa
 tempkey.jwk
