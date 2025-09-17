@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  todo-client:
+    image: client:latest
+    container_name: todoapp-client
+    build:
+      context: ./todoapp_client
+      dockerfile: Dockerfile
+    ports:
+      - "60221:80"   # HTTP from nginx
+      - "60222:443"  # HTTPS from nginx (optional, if you want SSL outside too)
+    depends_on:
+      - todo-api
+    networks:
+      - todo-network
+
+  todo-api:
+    image: api:latest
+    container_name: todo-api
+    hostname: todo-api
+    build:
+      context: ./TodoApp_Server
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/todo.db;Cache=Shared;Mode=ReadWriteCreate
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft_AspNetCore=Warning
+      - AllowedHosts=*
+      - ASPNETCORE_URLS=http://+:80   # Only HTTP
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+      - ASPNETCORE_HOSTFILTERING_ENABLED=false
+    ports:
+      - "7217:80"   # expose backend API
+    restart: on-failure
+    volumes:
+      - todo-db-data:/app/data
+    networks:
+      - todo-network
+
+volumes:
+  todo-db-data:
+    name: todo-db-data
+
+networks:
+  todo-network:
+    name: todo-network
+    driver: bridge

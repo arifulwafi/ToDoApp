@@ -33,6 +33,19 @@ namespace TodoApp.Server
                 .AddType<CreateTaskInputType>()
                 .AddType<UpdateTaskStatusInputType>();
 
+            // CORS - allow your dev frontend origin(s)
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalDev", policy =>
+                {
+                    policy
+                      .WithOrigins("https://localhost:60221", "https://localhost:7217", "http://localhost:3000")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials(); // include only if you need cookies; otherwise remove
+                });
+            });
+
             // Add services
             builder.Services.AddScoped<TodoService>();
 
@@ -40,6 +53,7 @@ namespace TodoApp.Server
 
             app.UseDefaultFiles();
             app.MapStaticAssets();
+            app.UseCors("AllowLocalDev");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
